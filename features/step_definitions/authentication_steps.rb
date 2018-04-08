@@ -1,5 +1,6 @@
 Given("I visit the homepage") do
   visit root_path
+  byebug
 end
 
 When("I fill in the sign up form") do
@@ -23,7 +24,7 @@ Then("should see that my account is confirmed") do
 end
 
 Given("I am a registered User") do
-  @registered_user = create(:user, email: 'tester@testdomain.test', password: 'p@s$word')
+  @registered_user = FactoryBot.create(:user)
 end
 
 When("I fill in the login form") do
@@ -33,7 +34,7 @@ When("I fill in the login form") do
 end
 
 Then("I should be logged in") do
-  expect(page).to have_content('Logged in')
+  expect(page).to have_content('Signed in')
 end
 
 Given("I am logged in") do
