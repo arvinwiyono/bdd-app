@@ -1,6 +1,10 @@
+def fill_log_in_form
+  fill_in 'user_email', with: 'tester@testdomain.test'
+  fill_in 'user_password', with: 'p@s$word'
+end
+
 Given("I visit the homepage") do
   visit root_path
-  byebug
 end
 
 When("I fill in the sign up form") do
@@ -28,8 +32,7 @@ Given("I am a registered User") do
 end
 
 When("I fill in the login form") do
-  fill_in 'user_email', with: 'tester@testdomain.test'
-  fill_in 'user_password', with: 'p@s$word'
+  fill_log_in_form
   click_button 'Log in'
 end
 
@@ -39,15 +42,12 @@ end
 
 Given("I am logged in") do
   visit root_path
-
-  fill_in 'user_email', with: 'tester@testdomain.test'
-  fill_in 'user_password', with: 'p@s$word'
-
+  fill_log_in_form
   click_button 'Log in'
 end
 
 When("I click on the log out button") do
-  click_button 'Log out'
+  click_link 'Log out'
 end
 
 Then("I should be redirected to the log in page") do
