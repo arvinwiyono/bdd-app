@@ -8,5 +8,15 @@ Then(/^I should see the list of my books$/) do
   expect(page).to have_content('Kill the Mocking Bird')
 end
 
-Given("I am a registered user") do
+When("I submit a new book to my inventory") do
+  click_link 'New Book'
+  fill_in 'book_name', with: 'Harry Potter'
+  fill_in 'book_author', with: 'J.K. Rowling'
+  click_button 'Create Book'
+end
+
+Then("I should see the new book in my inventory") do
+  visit root_path
+  expect(page).to have_content('Harry Potter')
+  expect(page).to have_content('J.K. Rowling')
 end
