@@ -61,4 +61,46 @@ RSpec.describe BooksController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    let(:book) { FactoryBot.build_stubbed(:book) }
+    let(:params) do
+      {
+        id: book.id,
+        book: { name: 'New title' }
+      }
+    end
+
+    before do
+      allow(Book).to receive(:find).and_return book
+      allow(book).to receive(:update).and_return true
+    end
+
+    it 'updates the book' do
+      patch :update, params: params
+      expect(book).to have_received(:update)
+    end
+
+    context 'when update succeeds' do
+      before { patch :update, params: params }
+      it 'redirects to the book show page' do
+        expect(response).to redirect_to(book_path(book))
+      end
+
+      it 'shows a success message' do
+        expect(flash[:notice]).to eq 'Book was successfully updated.'
+      end
+    end
+
+    context 'when update fails' do
+      before do
+        allow(book).to receive(:update).and_return false
+        patch :update, params: params
+      end
+
+      it 're-renders the edit page' do
+        expect(response).to render_template('edit')
+      end
+    end
+  end
 end

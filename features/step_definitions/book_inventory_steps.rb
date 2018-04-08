@@ -20,3 +20,29 @@ Then("I should see the new book in my inventory") do
   expect(page).to have_content('Harry Potter')
   expect(page).to have_content('J.K. Rowling')
 end
+
+Given("I have a book in my inventory") do
+  FactoryBot.create(:book, user: @registered_user, name: 'Original title')
+end
+
+When("I change the title of my book") do
+  visit root_path
+  click_link 'Edit'
+  fill_in 'book_name', with: 'New title'
+  click_button 'Update Book'
+end
+
+Then("I should see the book with the new title in my inventory") do
+  visit root_path
+  expect(page).to have_content 'New title'
+end
+
+When("I delete the book") do
+  visit root_path
+  click_link 'Destroy'
+end
+
+Then("I should not see it listed in my inventory") do
+  visit root_path
+  expect(page).not_to have_content 'Original title'
+end
